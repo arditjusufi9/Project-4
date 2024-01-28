@@ -1,0 +1,34 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String?
+  location    String
+  date        DateTime
+  capacity    Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  registrationDeadline DateTime
+  participants User[]
+}
+
+
+model User {
+  id    Int    @id @default(autoincrement())
+  eventId Int?
+  firstName  String
+  lastName  String
+  email String
+  registationDate DateTime @default(now())
+  event Event? @relation(fields: [eventId],references: [id])
+}
